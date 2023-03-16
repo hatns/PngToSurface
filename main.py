@@ -14,16 +14,14 @@ import string
 file_name = "".join(random.sample(string.ascii_letters+string.digits, 15))
 command = f'''import pygame
 def get_surface():
-    surface = pygame.Surface({img.size}, pygame.SRCALPHA, 32)
-'''
+    surface = pygame.Surface({img.size}, pygame.SRCALPHA, 32)'''
 for y, row in enumerate(pixels):
     for x, col in enumerate(row):
+        if col[3] <= 3:
+            continue
         command += f'''
     r, g, b, a = {col}
     square_surface = pygame.Surface((1,1), pygame.SRCALPHA)
-    square_surface.fill((r,g,b))
-    square_surface.set_alpha(a)
-    surface.blit(square_surface, ({x},{y}))
-    '''
-command += "return surface"
+    square_surface.fill((r,g,b)); square_surface.set_alpha(a); surface.blit(square_surface, ({x},{y}))'''
+command += "\n    return surface"
 open("output_"+file_name+".py", "w").write(command)
