@@ -1,7 +1,7 @@
 from PIL import Image
 from tkinter import Tk, filedialog
-
-
+import random
+import string
 root = Tk()
 root.withdraw()
 file_path = filedialog.askopenfilename()
@@ -11,8 +11,6 @@ pixels = [[0 for x in range(width)] for y in range(height)]
 for y in range(height):
     for x in range(width):
         pixels[y][x] = img.getpixel((x, y))
-import random
-import string
 file_name = "".join(random.sample(string.ascii_letters+string.digits, 15))
 command = f'''import pygame as p
 z = p.Surface
@@ -32,7 +30,6 @@ for y, row in enumerate(pixels):
         if col[3] <= 3:
             continue
         r, g, b, a = col
-        import pygame
         col = f'#{hex(r).removeprefix("0x").rjust(2, "0")}{hex(g).removeprefix("0x").rjust(2, "0")}{hex(b).removeprefix("0x").rjust(2, "0")}'
         if a == 255:
             if col == "#000000":
