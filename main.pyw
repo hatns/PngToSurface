@@ -1,5 +1,7 @@
 from PIL import Image
 from tkinter import Tk, filedialog
+
+
 root = Tk()
 root.withdraw()
 file_path = filedialog.askopenfilename()
@@ -17,10 +19,9 @@ z = p.Surface
 c = p.SRCALPHA
 m = "#000000"
 n = "#FFFFFF"
-q = 255
 def get_surface():
     a = z({img.size}, p.SRCALPHA, 32)
-    def d(clr,b,pos):
+    def d(clr,pos,b=255):
         s = z((1,1), c)
         s.fill(clr)
         s.set_alpha(b)
@@ -31,21 +32,22 @@ for y, row in enumerate(pixels):
         if col[3] <= 3:
             continue
         r, g, b, a = col
+        import pygame
         col = f'#{hex(r).removeprefix("0x").rjust(2, "0")}{hex(g).removeprefix("0x").rjust(2, "0")}{hex(b).removeprefix("0x").rjust(2, "0")}'
         if a == 255:
             if col == "#000000":
-                command += f'd(m,q,({x},{y}));'
+                command += f'd(m,({x},{y}));'
             elif col.lower() == "#ffffff":
-                command += f'd(n,q,({x},{y}));'
+                command += f'd(n,({x},{y}));'
             else:
-                command += f'd({col},q,({x},{y}));'
+                command += f'd("{col}",({x},{y}));'
         else:
             if col == "#000000":
-                command += f'd(m,q,({x},{y}));'
+                command += f'd(m,({x},{y}),{a});'
             elif col.lower() == "#ffffff":
-                command += f'd(n,q,({x},{y}));'
+                command += f'd(n,({x},{y}),{a});'
             else:
-                command += f'd({col},q,({x},{y}));'
+                command += f'd("{col}",({x},{y}),{a});'
         
 command += "\n    return a\n"
 command += "if __name__ == \"__main__\":\n"
